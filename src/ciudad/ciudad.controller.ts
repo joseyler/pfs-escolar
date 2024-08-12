@@ -16,6 +16,6 @@ export class CiudadController {
   async getById(): Promise<Ciudad> {
     console.log('hello');
 
-    return this.ciudadService.getById(1);
+    return this.ciudadService.getById('asdsa');
   }
 }

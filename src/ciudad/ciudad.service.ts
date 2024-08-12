@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Ciudad } from './entities/ciudad.entity';
@@ -17,10 +17,22 @@ export class CiudadService {
     return ciudades;
   }
 
-  public async getById(id: number): Promise<Ciudad> {
-    // const criterio: FindOneOptions = { where: { idCiudad: id } };
-    // const ciudad: Ciudad = await this.ciudadRepository.findOne(criterio);
-    const ciudad: Ciudad = await this.ciudadRepository.findOneById(id);
-    if (ciudad) return ciudad;
+  public async getById(id: string): Promise<Ciudad> {
+    try {
+      // const criterio: FindOneOptions = { where: { idCiudad: id } };
+      // const ciudad: Ciudad = await this.ciudadRepository.findOne(criterio);
+      const ciudad: Ciudad = await this.ciudadRepository.findOneById(id);
+      if (ciudad) return ciudad;
+      throw new DOMException('La ciudad no se encuentra');
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Error en la busqueda de ciudad ' + id + ' : ' + error,
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
   }
 }
