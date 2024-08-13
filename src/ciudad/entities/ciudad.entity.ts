@@ -1,24 +1,23 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('ciudades')
 export class Ciudad {
-  @PrimaryColumn({
-    generatedIdentity: 'ALWAYS',
+  @PrimaryGeneratedColumn({
     type: 'int',
   })
-  private idCiudad: number;
+  public idCiudad: number;
 
   @Column({
     name: 'nombreCiudad',
     length: 100,
   })
-  private nombre: string;
+  public nombre: string;
 
   @Column({
     type: 'int',
     nullable: false,
   })
-  private codigoPostal: number;
+  public codigoPostal: number;
 
   constructor(nombre: string, codigoPostal: number) {
     this.nombre = nombre;
