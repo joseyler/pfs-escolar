@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -38,8 +39,11 @@ export class CiudadController {
   }
 
   @Delete('/:idCiudad')
-  async deleteCiudad(@Param('idCiudad') idCiudad: number): Promise<string> {
-    this.ciudadService.eliminarCiudad(idCiudad);
-    return '';
+  async deleteCiudad(@Param('idCiudad') idCiudad: number): Promise<void> {
+    try {
+      this.ciudadService.eliminarCiudad(idCiudad);
+    } catch (ex) {
+      throw new NotFoundException();
+    }
   }
 }

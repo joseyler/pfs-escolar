@@ -95,19 +95,24 @@ export class CiudadService {
   }
 
   async eliminarCiudad(idCiudad: number): Promise<string> {
-    const criterioDelete: FindOptionsWhere<Ciudad> = { idCiudad };
-    const response: DeleteResult =
-      await this.ciudadRepository.delete(criterioDelete);
-    if (response.affected == 0) {
-      throw new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          error:
-            'Error emliminando ciudad id ' + idCiudad + ' : no se encuentra',
-        },
-        HttpStatus.NOT_FOUND,
-      );
+    try {
+      const criterioDelete: FindOptionsWhere<Ciudad> = { idCiudad };
+      const response: DeleteResult =
+        await this.ciudadRepository.delete(criterioDelete);
+      if (response.affected == 0) {
+        throw new HttpException(
+          {
+            status: HttpStatus.NOT_FOUND,
+            error:
+              'Error emliminando ciudad id ' + idCiudad + ' : no se encuentra',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+    } catch (e) {
+      console.log(e);
     }
+
     return '';
   }
 }
