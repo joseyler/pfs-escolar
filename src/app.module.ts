@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CiudadModule } from './ciudad/ciudad.module';
+import { EstudianteModule } from './estudiante/estudiante.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CiudadModule } from './ciudad/ciudad.module';
       logging: 'all',
     }),
     CiudadModule,
+    EstudianteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
