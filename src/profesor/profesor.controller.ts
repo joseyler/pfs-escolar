@@ -1,34 +1,39 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, NotFoundException } from '@nestjs/common';
 import { ProfesorService } from './profesor.service';
-import { CreateProfesorDto } from './dto/create-profesor.dto';
-import { UpdateProfesorDto } from './dto/update-profesor.dto';
+import { IProfesor } from './model/IProfesor';
+import { Profesor } from './entities/profesor.entity';
 
-@Controller('profesor')
+@Controller('profesores')
 export class ProfesorController {
   constructor(private readonly profesorService: ProfesorService) {}
 
-  @Post()
-  create(@Body() createProfesorDto: CreateProfesorDto) {
-    return this.profesorService.create(createProfesorDto);
+  @Get('/')
+  async getAll(): Promise<Profesor[]> {
+    return this.profesorService.getAll();
   }
 
-  @Get()
-  findAll() {
-    return this.profesorService.findAll();
+  @Get('/:idProfesor')
+  async getById(@Param('idProfesor') id: number): Promise<Profesor> {
+    return this.profesorService.getById(id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.profesorService.findOne(+id);
+  @Post('/')
+  async createProfesor(@Body() profesor: IProfesor): Promise<IProfesor> {
+    return this.profesorService.createProfesor(profesor);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProfesorDto: UpdateProfesorDto) {
-    return this.profesorService.update(+id, updateProfesorDto);
+
+  @Put('/:idProfesor')
+  async actualizarProfesor(@Param('idProfesor') idProfesor: number, @Body() profesor: IProfesor):Promise<IProfesor> {
+    return this.profesorService.actualizarProfesor(idProfesor, profesor);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.profesorService.remove(+id);
+  @Delete('/:idProfesor')
+  async eliminarProfesor(@Param('idProfesor') idProfesor: number):Promise<void> {
+    try {
+      this.profesorService.eliminarProfesor(idProfesor);
+    } catch(ex) {
+      throw new NotFoundException();
+    }
   }
 }
