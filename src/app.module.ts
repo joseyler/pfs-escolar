@@ -14,7 +14,7 @@ import { EscuelaModule } from './escuela/escuela.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'root123',
+      password: 'root',
       database: 'escolar',
       synchronize: false,
       entities: ['dist/**/*.entity.js'],
@@ -23,7 +23,7 @@ import { EscuelaModule } from './escuela/escuela.module';
     CiudadModule,
     EstudianteModule,
     ProfesorModule,
-    EscuelaModule
+    EscuelaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

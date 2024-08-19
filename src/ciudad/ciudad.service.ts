@@ -2,6 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   DeleteResult,
+  FindManyOptions,
   FindOneOptions,
   FindOptionsWhere,
   Repository,
@@ -9,6 +10,7 @@ import {
 } from 'typeorm';
 import { Ciudad } from './entities/ciudad.entity';
 import { ICiudad } from './model/ICiudad';
+import { CiudadRelOptions } from './model/CiudadRelOptions';
 
 @Injectable()
 export class CiudadService {
@@ -17,19 +19,27 @@ export class CiudadService {
   constructor(
     @InjectRepository(Ciudad)
     private readonly ciudadRepository: Repository<Ciudad>,
-  ) { }
+  ) {}
 
   public async getAll(): Promise<Ciudad[]> {
-    const ciudades: Ciudad[] = await this.ciudadRepository.find();
+    const options: FindManyOptions = { relations: ['escuelas'] };
+    const ciudades: Ciudad[] = await this.ciudadRepository.find(options);
     return ciudades;
   }
 
-  public async getById(id: number): Promise<Ciudad> {
+  public async getById(id: number, rel?: CiudadRelOptions): Promise<Ciudad> {
     try {
-
-      const ciudad: Ciudad = await this.ciudadRepository.findOneBy({
-        idCiudad: id,
-      }); 
+      const relations = [];
+      if (rel) {
+        if (rel.includeEscuelas) {
+          relations.push('escuelas');
+        }
+      }
+      const options: FindOneOptions = {
+        relations,
+        where: { idCiudad: id },
+      };
+      const ciudad: Ciudad = await this.ciudadRepository.findOne(options);
       if (ciudad) return ciudad;
       throw new DOMException('La ciudad no se encuentra');
     } catch (error) {
@@ -58,7 +68,6 @@ export class CiudadService {
   }
 
   async actualizarCiudad(ciudad: ICiudad, idCiudad: number): Promise<ICiudad> {
-
     const criterio: FindOneOptions<Ciudad> = { where: { idCiudad } };
     const ciudadDb: Ciudad = await this.ciudadRepository.findOne(criterio);
     ciudadDb.setCodigoPostal(ciudad.codigoPostal);
