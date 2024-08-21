@@ -1,5 +1,6 @@
+import { DomiciliosProfesor } from 'src/domicilios-profesor/entities/domicilios-profesor.entity';
 import { Escuela } from 'src/escuela/entities/escuela.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('ciudades')
 export class Ciudad {
@@ -22,6 +23,10 @@ export class Ciudad {
 
   @OneToMany(() => Escuela, (escuela) => escuela.ciudad)
   public escuelas: Escuela[];
+
+  @OneToMany(()=>DomiciliosProfesor, (domiciliosProfesor)=>domiciliosProfesor.ciudad)
+  @JoinColumn()
+  public domicilios:DomiciliosProfesor[]
 
   constructor(nombre: string, codigoPostal: number) {
     this.nombre = nombre;

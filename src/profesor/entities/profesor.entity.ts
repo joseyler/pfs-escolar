@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { DomiciliosProfesor } from 'src/domicilios-profesor/entities/domicilios-profesor.entity';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('profesores')
 export class Profesor {
@@ -18,6 +19,10 @@ export class Profesor {
     length: 100,
   })
   public apellidoProfesor: string;
+
+  @OneToMany(()=>DomiciliosProfesor, (domiciliosProfesor)=>domiciliosProfesor.profesor)
+  @JoinColumn()
+  public domicilios:DomiciliosProfesor[]
 
   constructor(nombreProfesor: string, apellidoProfesor: string) {
     this.nombreProfesor = nombreProfesor;

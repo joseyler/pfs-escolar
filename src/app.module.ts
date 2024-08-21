@@ -6,6 +6,7 @@ import { CiudadModule } from './ciudad/ciudad.module';
 import { EstudianteModule } from './estudiante/estudiante.module';
 import { ProfesorModule } from './profesor/profesor.module';
 import { EscuelaModule } from './escuela/escuela.module';
+import { DomiciliosProfesorModule } from './domicilios-profesor/domicilios-profesor.module';
 
 @Module({
   imports: [
@@ -14,9 +15,9 @@ import { EscuelaModule } from './escuela/escuela.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'root',
+      password: 'baloo206',
       database: 'escolar',
-      synchronize: false,
+      synchronize: true,
       entities: ['dist/**/*.entity.js'],
       logging: 'all',
     }),
@@ -24,6 +25,7 @@ import { EscuelaModule } from './escuela/escuela.module';
     EstudianteModule,
     ProfesorModule,
     EscuelaModule,
+    DomiciliosProfesorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
