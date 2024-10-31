@@ -6,24 +6,24 @@ import {
     JoinColumn,
     ManyToOne,
     PrimaryGeneratedColumn,
-  } from 'typeorm';
+} from 'typeorm';
 
 @Entity('domicilioProfesor')
-export class DomiciliosProfesor{
+export class DomiciliosProfesor {
     @PrimaryGeneratedColumn('increment')
-    public idDomicilioProfesor:number;
+    public idDomicilioProfesor: number;
 
     @Column({
-        name:'domicilio',
-        length:200,
+        name: 'domicilio',
+        length: 200,
     })
-    public domicilio:string;
+    public domicilio: string;
 
-    @ManyToOne(()=> Profesor, (profesor) => profesor.domicilios)
+    @ManyToOne(() => Profesor, (profesor) => profesor.domicilios)
     @JoinColumn()
-    public profesor:Profesor;
+    public profesor: Profesor;
 
-    @ManyToOne(()=> Ciudad, (ciudad) => ciudad.domicilios)
+    @ManyToOne(() => Ciudad, (ciudad) => ciudad.domicilios)
     @JoinColumn()
-    public ciudad:Ciudad;
+    public ciudad: Ciudad;
 }
